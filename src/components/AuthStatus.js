@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../utils/auth";
+import Button from '@material-ui/core/Button';
 
 export default function AuthStatus() {
   let history = useHistory();
@@ -8,23 +9,23 @@ export default function AuthStatus() {
   function renderLoginButton(r) {
     if (r === "admin") {
       return (
-        <button
+        <Button variant="contained" color="default"
           onClick={() => {
             auth.unsetAdmin(() => history.push("/"));
           }}
         >
           Become Normal User
-        </button>
+        </Button>
       );
     } else if (r === "user") {
       return (
-        <button
+        <Button variant="contained" color="primary"
           onClick={() => {
             auth.setAdmin(() => history.push("/"));
           }}
         >
           Become Admin
-        </button>
+        </Button>
       );
     } else {
       return null;
@@ -35,13 +36,13 @@ export default function AuthStatus() {
     <p>
       You are viewing this page as {auth.user}
       {renderLoginButton(auth.user)}
-      <button
+      <Button variant="contained" color="secondary"
           onClick={() => {
             auth.signout(() => history.push("/"));
           }}
         >
           Sign out
-        </button>
+        </Button>
     </p>
   ) : (
     <p>You are not logged in.</p>

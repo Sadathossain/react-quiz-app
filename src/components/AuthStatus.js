@@ -1,6 +1,11 @@
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../utils/auth";
-import Button from '@material-ui/core/Button';
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  Typography
+ } from '@material-ui/core';
 
 export default function AuthStatus() {
   let history = useHistory();
@@ -9,21 +14,13 @@ export default function AuthStatus() {
   function renderLoginButton(r) {
     if (r === "admin") {
       return (
-        <Button variant="contained" color="default"
-          onClick={() => {
-            auth.unsetAdmin(() => history.push("/"));
-          }}
-        >
-          Become Normal User
+        <Button onClick={() => {auth.unsetAdmin(() => history.push("/answers"))}}>
+          Become User
         </Button>
       );
     } else if (r === "user") {
       return (
-        <Button variant="contained" color="primary"
-          onClick={() => {
-            auth.setAdmin(() => history.push("/"));
-          }}
-        >
+        <Button onClick={() => {auth.setAdmin(() => history.push("/questions"))}}>
           Become Admin
         </Button>
       );
@@ -33,18 +30,27 @@ export default function AuthStatus() {
   }
 
   return auth.user ? (
-    <p>
-      You are viewing this page as {auth.user}
-      {renderLoginButton(auth.user)}
-      <Button variant="contained" color="secondary"
-          onClick={() => {
-            auth.signout(() => history.push("/"));
-          }}
-        >
+    <Grid
+      container
+      direction="row"
+      justify="space-between"
+      alignItems="center"
+    >
+      <Grid item xs={9}>
+        <Typography variant="h6" style={{marginLeft: '20px'}}>You are viewing this page as {auth.user}</Typography>
+      </Grid>
+      <Grid item xs={3}>
+      <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+        {renderLoginButton(auth.user)}
+        <Button onClick={() => {auth.signout(() => history.push("/"))}}>
           Sign out
         </Button>
-    </p>
+      </ButtonGroup>
+      </Grid>
+    </Grid>
   ) : (
-    <p>You are not logged in.</p>
+    <Typography variant="h5" style={{ textAlign: 'center' }}>
+      You are not logged in.
+    </Typography>
   );
 }

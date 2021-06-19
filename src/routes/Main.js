@@ -13,15 +13,31 @@ import AuthStatus from '../components/AuthStatus'
 import AnswersPage from '../pages/AnswersPage'
 import SigninPage from '../pages/SigninPage'
 import QuestionsPage from '../pages/QuestionsPage'
+import { ThemeProvider } from "@material-ui/styles";
+import {
+  Container,
+  CssBaseline,
+  AppBar,
+  createMuiTheme
+} from "@material-ui/core";
+
+const theme = createMuiTheme({
+  palette: {
+    type: "dark"
+  }
+});
 
 export default function Main() {
   return (
+    <ThemeProvider theme={theme}>
     <ProvideAuth>
       <Router>
-        <div>
-          <AuthStatus />
+        <Container>
+      <CssBaseline />
+      <AppBar><AuthStatus /></AppBar>
 
-          <ul>
+
+          <ul style={{ marginTop: 80}}>
             <li>
               <Link to="/answers">Answers Page</Link>
             </li>
@@ -41,9 +57,10 @@ export default function Main() {
               <QuestionsPage />
             </AdminRoute>
           </Switch>
-        </div>
+        </Container>
       </Router>
     </ProvideAuth>
+    </ThemeProvider>
   );
 }
 // A wrapper for AnyUser routes

@@ -93,6 +93,8 @@ export default function QuestionsPage() {
   };
   const handleClearAll = () => {
     localStorage.removeItem('questionBank');
+    localStorage.removeItem('userAnswers');
+    localStorage.removeItem('userScore');
     setQuestionNo(1)
     setOpenSnackbar(true)
   }

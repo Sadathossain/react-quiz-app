@@ -37,7 +37,7 @@ export default function AuthStatus() {
       alignItems="center"
     >
       <Grid item xs={9}>
-        <Typography variant="h6" style={{marginLeft: '20px'}}>You are viewing this page as {auth.user}</Typography>
+        <Typography variant="subtitle1" style={{marginLeft: '20px'}}>You are viewing this page as {auth.user}</Typography>
       </Grid>
       <Grid item xs={3}>
       <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">

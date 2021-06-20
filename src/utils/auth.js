@@ -7,7 +7,12 @@ function useProvideAuth() {
   const [user, setUser] = usePersistedState('user', null);
 
   const setAdmin = () => setUser('admin')
-  const unsetAdmin = () => setUser('user')
+  const unsetAdmin = () => {
+    setUser('user')
+    // Reset Answers and Score
+    localStorage.removeItem('userAnswers');
+    localStorage.removeItem('userScore');
+  }
   const signout = () => setUser(null)
 
   return {

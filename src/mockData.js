@@ -7,6 +7,7 @@ export const mockData = [
         optC: 'Paris',
         optD: 'Dublin',
         answer: 'c',
+        userAnswer: 'c',
         archived: false,
     },
     {
@@ -17,6 +18,7 @@ export const mockData = [
         optC: 'Bill Gates',
         optD: 'Tony Stark',
         answer: 'b',
+        userAnswer: 'd',
         archived: false,
     },
     {
@@ -27,6 +29,7 @@ export const mockData = [
         optC: 'Amazon',
         optD: 'Microsoft',
         answer: 'a',
+        userAnswer: 'a',
         archived: false,
     },
     {
@@ -37,6 +40,7 @@ export const mockData = [
         optC: '6',
         optD: '7',
         answer: 'd',
+        userAnswer: 'd',
         archived: false,
     },
 ]

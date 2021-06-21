@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useLocalStorage from '../utils/useLocalStorage';
-import { makeStyles } from '@material-ui/core/styles';
+import useLocalStorage from "../utils/useLocalStorage";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   InputLabel,
   MenuItem,
@@ -13,11 +13,11 @@ import {
   Typography,
   Fab,
   Checkbox,
-  Snackbar
+  Snackbar,
 } from "@material-ui/core";
-import SaveIcon from '@material-ui/icons/Save';
-import ClearAllIcon from '@material-ui/icons/ClearAll';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import SaveIcon from "@material-ui/icons/Save";
+import ClearAllIcon from "@material-ui/icons/ClearAll";
+import NavigationIcon from "@material-ui/icons/Navigation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.primary,
   },
   formControl: {
@@ -38,17 +38,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QuestionsPage() {
   const classes = useStyles();
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [questionNo, setQuestionNo] = useLocalStorage('questionNo', 1);
-  const [questionBank, setQuestionBank] = useLocalStorage('questionBank', []);
+  const [questionBank, setQuestionBank] = useLocalStorage("questionBank", []);
+  const [questionNo, setQuestionNo] = useLocalStorage("questionNo", 5);
   // const [questionBank, setQuestionBank] = useState([]);
-  const [optA, setOptA] = useState('');
-  const [optB, setOptB] = useState('');
-  const [optC, setOptC] = useState('');
-  const [optD, setOptD] = useState('');
-  const [answer, setAnswer] = useState('');
+  const [optA, setOptA] = useState("");
+  const [optB, setOptB] = useState("");
+  const [optC, setOptC] = useState("");
+  const [optD, setOptD] = useState("");
+  const [answer, setAnswer] = useState("");
   const [checked, setChecked] = useState(false);
+  const [msg, setMsg] = useState(
+    "All of Your Data has been Cleared to Initial"
+  );
   const handleQuestionChange = (event) => {
     setQuestion(event.target.value);
   };
@@ -74,7 +77,7 @@ export default function QuestionsPage() {
     setOpenSnackbar(false);
   };
   const handleSubmit = () => {
-    setQuestionNo(questionNo+1)
+    setQuestionNo(questionNo + 1);
     let q = {
       id: questionNo,
       question: question,
@@ -83,34 +86,36 @@ export default function QuestionsPage() {
       optC: optC,
       optD: optD,
       answer: answer,
+      userAnswer: "DidNotParticipated",
       archived: checked,
-    }
-    let qb = JSON.parse(localStorage.getItem('questionBank')) || []
-    qb.push(q)
-    setQuestionBank(qb)
-    // console.log('questionBank=>', questionBank)
-    console.log('getItem=>', JSON.parse(localStorage.getItem('questionBank')))
+    };
+    setQuestionBank((questionBank) => [...questionBank, q]);
+    setMsg("Data Saved");
+    setOpenSnackbar(true);
   };
   const handleClearAll = () => {
-    localStorage.removeItem('questionBank');
-    localStorage.removeItem('userAnswers');
-    localStorage.removeItem('userScore');
-    setQuestionNo(1)
-    setOpenSnackbar(true)
-  }
-    return (
-      <div className={classes.root}>
-        <Snackbar
+    localStorage.removeItem("questionBank");
+    localStorage.removeItem("userAnswers");
+    localStorage.removeItem("archivedList");
+    localStorage.removeItem("userScore");
+    setQuestionNo(7);
+    setOpenSnackbar(true);
+  };
+  return (
+    <div className={classes.root}>
+      <Snackbar
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
         open={openSnackbar}
         autoHideDuration={4500}
         onClose={handleCloseSnackbar}
-        message="All of Your Data has been Cleared to Initial"
+        message={msg}
       />
-        <Typography variant="h5" style={{ textAlign: 'center' }}>Questions Page (Admin only)</Typography>
+      <Typography variant="h5" style={{ textAlign: "center" }}>
+        Questions Page (Admin only)
+      </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
@@ -131,7 +136,7 @@ export default function QuestionsPage() {
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
-          <TextField
+            <TextField
               id="option-a"
               value={optA}
               onChange={handleOptAChange}
@@ -144,7 +149,7 @@ export default function QuestionsPage() {
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
-          <TextField
+            <TextField
               id="option-b"
               value={optB}
               onChange={handleOptBChange}
@@ -157,7 +162,7 @@ export default function QuestionsPage() {
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
-          <TextField
+            <TextField
               id="option-c"
               value={optC}
               onChange={handleOptCChange}
@@ -170,7 +175,7 @@ export default function QuestionsPage() {
         </Grid>
         <Grid item xs={6}>
           <Paper className={classes.paper}>
-          <TextField
+            <TextField
               id="option-d"
               value={optD}
               onChange={handleOptDChange}
@@ -182,48 +187,53 @@ export default function QuestionsPage() {
           </Paper>
         </Grid>
         <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-            style={{marginTop: 20}}
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+          style={{ marginTop: 20 }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checked}
+                onChange={handleCheckboxChange}
+                name="archived"
+                color="primary"
+              />
+            }
+            label="Archived Question"
+          />
+          <FormControl
+            required
+            variant="outlined"
+            className={classes.formControl}
+            error
           >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleCheckboxChange}
-                  name="archived"
-                  color="primary"
-                />
-              }
-              label="Archived Question"
-            />
-            <FormControl required variant="outlined" className={classes.formControl} error>
-              <InputLabel id="answer">Answer</InputLabel>
-              <Select
-                value={answer}
-                onChange={handleSelectChange}
-                label="Answer"
-              >
-                <MenuItem value='a'>Option A</MenuItem>
-                <MenuItem value='b'>Option B</MenuItem>
-                <MenuItem value='c'>Option C</MenuItem>
-                <MenuItem value='d'>Option D</MenuItem>
-              </Select>
-            </FormControl>
-        <Fab color="primary" aria-label="save" onClick={handleSubmit}>
-          <SaveIcon />
-        </Fab>
-        <Fab color="secondary" aria-label="clear-all" onClick={handleClearAll}>
-          <ClearAllIcon />
-        </Fab>
-        <Fab variant="extended">
-          <NavigationIcon className={classes.extendedIcon} />
-          Question-Bank
-        </Fab>
+            <InputLabel id="answer">Answer</InputLabel>
+            <Select value={answer} onChange={handleSelectChange} label="Answer">
+              <MenuItem value="a">Option A</MenuItem>
+              <MenuItem value="b">Option B</MenuItem>
+              <MenuItem value="c">Option C</MenuItem>
+              <MenuItem value="d">Option D</MenuItem>
+            </Select>
+          </FormControl>
+          <Fab color="primary" aria-label="save" onClick={handleSubmit}>
+            <SaveIcon />
+          </Fab>
+          <Fab
+            color="secondary"
+            aria-label="clear-all"
+            onClick={handleClearAll}
+          >
+            <ClearAllIcon />
+          </Fab>
+          <Fab variant="extended">
+            <NavigationIcon className={classes.extendedIcon} />
+            Question-Bank
+          </Fab>
         </Grid>
       </Grid>
     </div>
-    );
-  }
+  );
+}

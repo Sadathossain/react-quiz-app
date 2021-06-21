@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import usePersistedState from "../utils/usePersistedState";
-import useLocalStorage from '../utils/useLocalStorage';
+import useLocalStorage from "../utils/useLocalStorage";
 import {
   Grid,
   Paper,
@@ -10,10 +9,10 @@ import {
   Checkbox,
   Dialog,
   DialogTitle,
-  DialogContent
+  DialogContent,
 } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import {mockData} from '../mockData';
+import { makeStyles } from "@material-ui/core/styles";
+import { mockData } from "../mockData";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,166 +20,187 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.primary,
-  }
+  },
 }));
 
 export default function AnswersPage() {
   let history = useHistory();
 
   const classes = useStyles();
-  const [index, setIndex] = usePersistedState('index', 0);
-  const [checkedState, setCheckedState] = useState(
-    new Array(4).fill(false)
-  );
+  const [index, setIndex] = useState(0);
+  const [checkedState, setCheckedState] = useState(new Array(4).fill(false));
   const [openDialog, setOpenDialog] = useState(false);
 
-  const [userAnswer, setUserAnswer] = useState('');
-  const [userScore, setUserScore] = useLocalStorage('userScore', 0);
+  const [userAnswer, setUserAnswer] = useState("");
+  const [userScore, setUserScore] = useLocalStorage("userScore", 0);
 
-  const [questionBank, setQuestionBank] = useState(JSON.parse(localStorage.getItem('questionBank')) || mockData);
-  const [userAnswers, setUserAnswers] = useLocalStorage('userAnswers', []);
+  const [questionBank, setQuestionBank] = useLocalStorage(
+    "questionBank",
+    mockData
+  );
+
+  const [userAnswers, setUserAnswers] = useLocalStorage("userAnswers", []);
 
   const handleDialogClose = () => {
     setOpenDialog(false);
-    history.push("/")
+    setUserScore(0);
+    history.push("/");
   };
   const handleSubmit = (event) => {
     let a = new Array(4).fill(false);
     a[event.target.value] = true;
-    setCheckedState(a)
-    // userAnswers[index] = answer;
+    setCheckedState(a);
     let answer;
-      switch (parseInt(event.target.value)) {
-        case 0:
-          answer = 'a';
-          break;
-        case 1:
-          answer = 'b';
-          break;
-        case 2:
-          answer = 'c';
-          break;
-        case 3:
-          answer = 'd';
-          break;
-        default:
-          answer = ''
-      }
-    setUserAnswer(answer)
+    switch (parseInt(event.target.value)) {
+      case 0:
+        answer = "a";
+        break;
+      case 1:
+        answer = "b";
+        break;
+      case 2:
+        answer = "c";
+        break;
+      case 3:
+        answer = "d";
+        break;
+      default:
+        answer = "";
+    }
+    setUserAnswer(answer);
   };
   const handleNext = () => {
     // Scoring
     if (questionBank[index].answer === userAnswer) {
-      setUserScore(userScore+1)
+      setUserScore(userScore + 1);
     } else {
-      console.log('No Score')
+      // console.log('No Score')
     }
     // User Answer Submission
     let answer;
-      switch (userAnswer) {
-        case 'a':
-          answer = questionBank[index].optA;
-          break;
-        case 'b':
-          answer = questionBank[index].optB;
-          break;
-        case 'c':
-          answer = questionBank[index].optC;
-          break;
-        case 'd':
-          answer = questionBank[index].optD;
-          break;
-        default:
-          answer = ''
-      }
-    let ua = {
-      question: questionBank[index].question,
-      userAnswer: userAnswer
+    switch (userAnswer) {
+      case "a":
+        answer = questionBank[index].optA;
+        break;
+      case "b":
+        answer = questionBank[index].optB;
+        break;
+      case "c":
+        answer = questionBank[index].optC;
+        break;
+      case "d":
+        answer = questionBank[index].optD;
+        break;
+      default:
+        answer = "";
     }
-    let uab = JSON.parse(localStorage.getItem('userAnswers')) || []
-    uab.push(ua)
-    setUserAnswers(uab)
-    if (index === questionBank.length-1) {
+    let ua = {
+      id: questionBank[index].id,
+      question: questionBank[index].question,
+      answer: questionBank[index].answer,
+      userAnswer: userAnswer,
+    };
+    setUserAnswers((userAnswers) => [...userAnswers, ua]);
+    if (index === questionBank.length - 1) {
       // Reached End
-      setOpenDialog(true)
+      setOpenDialog(true);
     } else {
       // Goto Next
-      setIndex(index+1)
-      setCheckedState(new Array(4).fill(false))
+      setIndex(index + 1);
+      setCheckedState(new Array(4).fill(false));
     }
   };
 
   return (
     <div className={classes.root}>
-    <Typography variant="h5" style={{ textAlign: 'center' }}>There are {questionBank.length} Questions.</Typography>
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>
-            <Typography variant="h6" style={{ textAlign: 'center' }}>{questionBank[index].question}</Typography>
-        </Paper>
+      <Typography variant="h5" style={{ textAlign: "center" }}>
+        There are {questionBank.length} Questions.
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Typography variant="h6" style={{ textAlign: "center" }}>
+              {questionBank[index].question}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Checkbox
+              checked={checkedState[0]}
+              onChange={handleSubmit}
+              value={0}
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              {questionBank[index].optA}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Checkbox
+              checked={checkedState[1]}
+              onChange={handleSubmit}
+              value={1}
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              {questionBank[index].optB}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Checkbox
+              checked={checkedState[2]}
+              onChange={handleSubmit}
+              value={2}
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              {questionBank[index].optC}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper className={classes.paper}>
+            <Checkbox
+              checked={checkedState[3]}
+              onChange={handleSubmit}
+              value={3}
+              inputProps={{ "aria-label": "primary checkbox" }}
+            />
+            <Typography variant="subtitle1" style={{ textAlign: "center" }}>
+              {questionBank[index].optD}
+            </Typography>
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <Paper className={classes.paper}>
-          <Checkbox
-            checked={checkedState[0]}
-            onChange={handleSubmit}
-            value={0}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>{questionBank[index].optA}</Typography>
-        </Paper>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        style={{ marginTop: 20 }}
+      >
+        <Button
+          onClick={handleNext}
+          size="large"
+          variant="contained"
+          color="secondary"
+        >
+          Submit and Go Next
+        </Button>
+        {/* <Button onClick={() => {setIndex(index-1); setCheckedState(new Array(4).fill(false))}}>Previous</Button> */}
       </Grid>
-      <Grid item xs={6}>
-        <Paper className={classes.paper}>
-          <Checkbox
-            checked={checkedState[1]}
-            onChange={handleSubmit}
-            value={1}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>{questionBank[index].optB}</Typography>
-        </Paper>
-      </Grid>
-      <Grid item xs={6}>
-        <Paper className={classes.paper}>
-          <Checkbox
-            checked={checkedState[2]}
-            onChange={handleSubmit}
-            value={2}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>{questionBank[index].optC}</Typography>
-        </Paper>
-      </Grid>
-      <Grid item xs={6}>
-        <Paper className={classes.paper}>
-          <Checkbox
-            checked={checkedState[3]}
-            onChange={handleSubmit}
-            value={3}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-          <Typography variant="subtitle1" style={{ textAlign: 'center' }}>{questionBank[index].optD}</Typography>
-        </Paper>
-      </Grid>
-    </Grid>
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      style={{marginTop: 20}}
-    >
-      {/* <ButtonGroup size="large" variant="outlined" color="secondary">
-        {index === 0 ? null : <Button onClick={() => {setIndex(index-1); setCheckedState(new Array(4).fill(false))}}>Previous</Button>}
-        <Button onClick={handleNext}>Next</Button>
-      </ButtonGroup> */}
-      <Button onClick={handleNext} size="large" variant="contained" color="secondary">Submit and Go Next</Button>
-      <Button onClick={() => {setIndex(index-1); setCheckedState(new Array(4).fill(false))}}>Previous</Button>
-    </Grid>
-    <Dialog onClose={handleDialogClose} aria-labelledby="customized-dialog-title" open={openDialog}>
+      <Dialog
+        onClose={handleDialogClose}
+        aria-labelledby="customized-dialog-title"
+        open={openDialog}
+      >
         <DialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
           Result
         </DialogTitle>
@@ -192,4 +212,4 @@ export default function AnswersPage() {
       </Dialog>
     </div>
   );
-  }
+}

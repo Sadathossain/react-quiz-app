@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/Sadathossain/react-quiz-app/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/Sadathossain/react-quiz-app/static/js/main.5c88e70d.chunk.js",
-    "main.js.map": "/Sadathossain/react-quiz-app/static/js/main.5c88e70d.chunk.js.map",
-    "runtime-main.js": "/Sadathossain/react-quiz-app/static/js/runtime-main.bfd48362.js",
-    "runtime-main.js.map": "/Sadathossain/react-quiz-app/static/js/runtime-main.bfd48362.js.map",
-    "static/js/2.5dd60fdb.chunk.js": "/Sadathossain/react-quiz-app/static/js/2.5dd60fdb.chunk.js",
-    "static/js/2.5dd60fdb.chunk.js.map": "/Sadathossain/react-quiz-app/static/js/2.5dd60fdb.chunk.js.map",
-    "static/js/3.8c6a3a6b.chunk.js": "/Sadathossain/react-quiz-app/static/js/3.8c6a3a6b.chunk.js",
-    "static/js/3.8c6a3a6b.chunk.js.map": "/Sadathossain/react-quiz-app/static/js/3.8c6a3a6b.chunk.js.map",
-    "index.html": "/Sadathossain/react-quiz-app/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/Sadathossain/react-quiz-app/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.5dd60fdb.chunk.js.LICENSE.txt": "/Sadathossain/react-quiz-app/static/js/2.5dd60fdb.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/static/js/main.5c88e70d.chunk.js",
+    "main.js.map": "/static/js/main.5c88e70d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.e3eb1e7b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.e3eb1e7b.js.map",
+    "static/js/2.5dd60fdb.chunk.js": "/static/js/2.5dd60fdb.chunk.js",
+    "static/js/2.5dd60fdb.chunk.js.map": "/static/js/2.5dd60fdb.chunk.js.map",
+    "static/js/3.8c6a3a6b.chunk.js": "/static/js/3.8c6a3a6b.chunk.js",
+    "static/js/3.8c6a3a6b.chunk.js.map": "/static/js/3.8c6a3a6b.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.5dd60fdb.chunk.js.LICENSE.txt": "/static/js/2.5dd60fdb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.bfd48362.js",
+    "static/js/runtime-main.e3eb1e7b.js",
     "static/js/2.5dd60fdb.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
     "static/js/main.5c88e70d.chunk.js"

@@ -36,12 +36,12 @@ export default function AnswersPage() {
   const [userAnswer, setUserAnswer] = useState("");
   const [userScore, setUserScore] = useLocalStorage("userScore", 0);
 
-  const [questionBank, setQuestionBank] = useLocalStorage(
+  const [questionBank] = useLocalStorage(
     "questionBank",
     mockData
   );
 
-  const [userAnswers, setUserAnswers] = useLocalStorage("userAnswers", []);
+  const [setUserAnswers] = useLocalStorage("userAnswers", []);
 
   const handleDialogClose = () => {
     setOpenDialog(false);
@@ -79,23 +79,6 @@ export default function AnswersPage() {
       // console.log('No Score')
     }
     // User Answer Submission
-    let answer;
-    switch (userAnswer) {
-      case "a":
-        answer = questionBank[index].optA;
-        break;
-      case "b":
-        answer = questionBank[index].optB;
-        break;
-      case "c":
-        answer = questionBank[index].optC;
-        break;
-      case "d":
-        answer = questionBank[index].optD;
-        break;
-      default:
-        answer = "";
-    }
     let ua = {
       id: questionBank[index].id,
       question: questionBank[index].question,

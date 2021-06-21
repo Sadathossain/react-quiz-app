@@ -40,7 +40,7 @@ export default function QuestionsPage() {
   const classes = useStyles();
   const [question, setQuestion] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [questionBank, setQuestionBank] = useLocalStorage("questionBank", []);
+  const [setQuestionBank] = useLocalStorage("questionBank", []);
   const [questionNo, setQuestionNo] = useLocalStorage("questionNo", 5);
   // const [questionBank, setQuestionBank] = useState([]);
   const [optA, setOptA] = useState("");

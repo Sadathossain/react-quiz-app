@@ -27,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ManagePage() {
   const classes = useStyles();
-  const [dense] = useState(false);
+  const [dense, setDense] = useState(false);
 
   const [list, setList] = useLocalStorage("questionBank", mockData);
-  const [userReport] = useLocalStorage("userAnswers");
+  const [userReport, setUserReport] = useLocalStorage("userAnswers");
   const [archivedList, setArchivedList] = useLocalStorage("archivedList", []);
 
   function handleDelete(id) {

@@ -36,12 +36,12 @@ export default function AnswersPage() {
   const [userAnswer, setUserAnswer] = useState("");
   const [userScore, setUserScore] = useLocalStorage("userScore", 0);
 
-  const [questionBank] = useLocalStorage(
+  const [questionBank, setQuestionBank] = useLocalStorage(
     "questionBank",
     mockData
   );
 
-  const [setUserAnswers] = useLocalStorage("userAnswers", []);
+  const [userAnswers, setUserAnswers] = useLocalStorage("userAnswers", []);
 
   const handleDialogClose = () => {
     setOpenDialog(false);
